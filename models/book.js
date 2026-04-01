@@ -1,11 +1,11 @@
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-import mongoose, { Schema } from "mongoose";
-
-const bookSchema = new Schema()(
+const bookSchema = new mongoose.Schema(
   {
     title: { type: String, required: true, trim: true },
     isbn: { type: String, unique: true, trim: true, uppercase: true },
-    dob: { type: String },
+    publishedDate: { type: Date },
     authors: [{ type: Schema.Types.ObjectId, ref: "Author" }],
     status: { type: String, enum: ["IN", "OUT"], default: "IN" },
     borrowedBy: { type: Schema.Types.ObjectId, ref: "Student", default: null },
@@ -17,4 +17,4 @@ const bookSchema = new Schema()(
 
 const Book = mongoose.model("Book", bookSchema);
 
-export default Book;
+module.exports = Book;
