@@ -27,3 +27,19 @@ exports.createAuthor = async (req, res) => {
     });
   }
 };
+
+exports.fetchAllAuthors = async (req, res) => {
+  try {
+    const authors = await Author.find();
+
+    res.status(200).json({
+      message: "Fetched all authors",
+      data: authors,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal Server error",
+      error: error.message,
+    });
+  }
+};
