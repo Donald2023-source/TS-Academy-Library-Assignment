@@ -222,7 +222,7 @@ exports.borrowBook = async (req, res) => {
 exports.returnBook = async (req, res) => {
   try {
     const bookId = req.params.id;
-    const { studentId, attendantId } = req.body;
+    const { studentId } = req.body;
 
     if (!studentId) {
       return res.status(400).json({
@@ -250,14 +250,9 @@ exports.returnBook = async (req, res) => {
       });
     }
 
-    let fine = 0;
-    if (book.returnDate && book.returnDate < Date.now()) {
-      fine = 1000;
-    }
-
     book.status = "IN";
     book.borrowedBy = null;
-    book.issuedBy = attendantId || null;
+    book.issuedBy = null;
     book.returnDate = null;
 
     await book.save();
@@ -271,7 +266,6 @@ exports.returnBook = async (req, res) => {
       success: true,
       message: "Book returned successfully",
       book: populatedBook,
-      fine: fine > 0 ? `N${fine}` : null,
     });
   } catch (error) {
     console.error(error);
