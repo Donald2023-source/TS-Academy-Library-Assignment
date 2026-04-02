@@ -59,7 +59,6 @@ exports.createBook = async (req, res) => {
     });
   }
 };
-
 exports.fetchAllBooks = async (req, res) => {
   try {
     const books = await Book.find()
@@ -75,6 +74,35 @@ exports.fetchAllBooks = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error", status: 500 });
+  }
+};
+exports.fetchBookById = async (req, res) => {
+  try {
+    const bookId = req.params.id;
+
+    if (!bookId) {
+      return res.status(400).json({
+        message: "Author ID is required",
+      });
+    }
+
+    const book = await Book.findById(bookId).populate("author");
+
+    if (!book) {
+      return res.status(404).json({
+        message: "Book not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Book fetched successfully",
+      data: book,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message,
+    });
   }
 };
 exports.borrowBook = async (req, res) => {
@@ -130,7 +158,6 @@ exports.borrowBook = async (req, res) => {
     });
   }
 };
-
 exports.returnBook = async (req, res) => {
   try {
     const bookId = req.params.id;

@@ -6,10 +6,12 @@ const bookSchema = new mongoose.Schema(
     title: { type: String, required: true, trim: true },
     isbn: { type: String, unique: true, trim: true, uppercase: true },
     publishedDate: { type: Date },
-    author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Author",
-    },
+    author: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Author",
+      },
+    ],
     status: { type: String, enum: ["IN", "OUT"], default: "IN" },
     borrowedBy: { type: Schema.Types.ObjectId, ref: "Student", default: null },
     issuedBy: { type: Schema.Types.ObjectId, ref: "Attendant", default: null },
