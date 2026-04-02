@@ -41,3 +41,32 @@ exports.fetchAllStudents = async (req, res) => {
     });
   }
 };
+exports.fetchStudentById = async (req, res) => {
+  try {
+    const studentId = req.params.id;
+
+    if (!studentId) {
+      return res.status(400).json({
+        message: "Student ID is required",
+      });
+    }
+
+    const author = await Student.findById(studentId);
+
+    if (!studentId) {
+      return res.status(404).json({
+        message: "Student not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Student fetched successfully",
+      data: author,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
