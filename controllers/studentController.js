@@ -26,3 +26,18 @@ exports.createStudent = async (req, res) => {
     });
   }
 };
+exports.fetchAllStudents = async (req, res) => {
+  try {
+    const students = await Student.find();
+
+    res.status(200).json({
+      message: "Fetched all students",
+      data: students,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal Server error",
+      error: error.message,
+    });
+  }
+};
