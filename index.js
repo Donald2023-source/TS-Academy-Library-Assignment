@@ -4,8 +4,7 @@ const connectDB = require("./config/database");
 const booksRouter = require("./routes/booksRoute");
 const authorRouter = require("./routes/authorsRoute");
 const studentRouter = require("./routes/studentRoute");
-const Attendant = require("./models/attendant");
-const Student = require("./models/student");
+const attendantRouter = require("./routes/attedantRoute");
 
 dotenv.config();
 
@@ -19,6 +18,7 @@ connectDB();
 app.use("/api/books", booksRouter);
 app.use("/api/author", authorRouter);
 app.use("/api/students", studentRouter);
+app.use("/api/attendants", attendantRouter);
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Server running" });
