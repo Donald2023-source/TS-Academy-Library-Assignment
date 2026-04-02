@@ -10,7 +10,7 @@ const {
   deleteBook,
 } = require("../controllers/bookController");
 
-router.post("/:id/borrowBook", borrowBook);
+router.post("/:id/borrow", borrowBook);
 router.post("/:id/return", returnBook);
 router.post("/create", createBook);
 router.get("/fetch-all", fetchAllBooks);

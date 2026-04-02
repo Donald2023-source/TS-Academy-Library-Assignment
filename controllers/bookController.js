@@ -181,6 +181,11 @@ exports.borrowBook = async (req, res) => {
         message: "Book not found",
       });
     }
+    if (returnDate <= Date.now()) {
+      return res.status(400).json({
+        message: "Return date must be in the future",
+      });
+    }
 
     if (book.status === "OUT") {
       return res.status(400).json({
@@ -197,7 +202,7 @@ exports.borrowBook = async (req, res) => {
     await book.save();
 
     const populatedBook = await Book.findById(book._id)
-      .populate("borrowedBy", "name studentId email")
+      .populate("borrowedBy")
       .populate("issuedBy", "name");
 
     res.status(200).json({
@@ -217,39 +222,61 @@ exports.borrowBook = async (req, res) => {
 exports.returnBook = async (req, res) => {
   try {
     const bookId = req.params.id;
+    const { studentId, attendantId } = req.body;
+
+    if (!studentId) {
+      return res.status(400).json({
+        message: "Please provide studentId",
+      });
+    }
 
     const book = await Book.findById(bookId);
+
     if (!book) {
-      res.status(404).json({ message: "Book not found", status: 404 });
+      return res.status(404).json({
+        message: "Book not found",
+      });
     }
 
     if (book.status === "IN") {
-      return res
-        .status(400)
-        .json({ message: "This book is not out!", status: 400 });
-    }
-
-    if (book.returnDate < Date.now()) {
-      res.status(201).json({
-        message: "You need to pay a find of N1000 for returning this book late",
+      return res.status(400).json({
+        message: "This book is already in the library",
       });
     }
+
+    if (book.borrowedBy?.toString() !== studentId) {
+      return res.status(403).json({
+        message: "Unauthorized! You didn't borrow this book",
+      });
+    }
+
+    let fine = 0;
+    if (book.returnDate && book.returnDate < Date.now()) {
+      fine = 1000;
+    }
+
     book.status = "IN";
-    book.borrowedBy = studentId;
-    book.issuedBy = attendantId;
+    book.borrowedBy = null;
+    book.issuedBy = attendantId || null;
     book.returnDate = null;
 
     await book.save();
-    const populatedBook = await Book.findById(book._id)
-      .populate("borrowedBy", "name studentId email")
-      .populate("issuedBy", "name");
 
-    res.status(200).json({
+    const populatedBook = await Book.findById(book._id)
+      .populate("author")
+      .populate("borrowedBy")
+      .populate("issuedBy");
+
+    return res.status(200).json({
       success: true,
-      message: "Book borrowed successfully",
+      message: "Book returned successfully",
       book: populatedBook,
+      fine: fine > 0 ? `N${fine}` : null,
     });
   } catch (error) {
-    res.status(500).json({ message: "Internal Server error" });
+    console.error(error);
+    return res.status(500).json({
+      message: "Internal Server error",
+    });
   }
 };
