@@ -44,103 +44,60 @@ TS-Academy-Library-Assignment/
 
 ⚙️ Getting Started
 
-📌 Prerequisites
-Node.js
-npm
-MongoDB (local or cloud e.g. Atlas)
 
-POSTMAN LINK - https://speeding-zodiac-673766.postman.co/workspace/LIBRARY-MANAGER~174fa481-f398-442d-9776-f60e6e10da20/collection/44727897-0f8ddff2-36c4-45dd-9131-6561d55ec2a9?action=share&creator=44727897
+# POSTMAN LINK
+https://speeding-zodiac-673766.postman.co/workspace/LIBRARY-MANAGER~174fa481-f398-442d-9776-f60e6e10da20/collection/44727897-0f8ddff2-36c4-45dd-9131-6561d55ec2a9?action=share&creator=44727897
 
-📦 Installation
+# Clone the repository
 git clone https://github.com/Donald2023-source/TS-Academy-Library-Assignment
 
 cd TS-Academy-Library-Assignment
 
+# Package Installation
 npm install
 
-🔐 Environment Variables
-
-Create a .env file:
-
-PORT=8000
+# Enviroment Variables
+PORT=8000   
 MONGO_URI=your_mongodb_connection_string
 
-▶️ Run the Server
+# Run Sever
 npm start
 
 Server runs on:
 
 http://localhost:8000
 
-🔗 API Endpoints
 
-📚 Books
+# 🔗 API ENDPOINTS
 
-Method Endpoint Description
-
-POST /api/books Create a book
-
-GET /api/books Get all books
-
-GET /api/books/:id Get single book
-
-PUT /api/books/:id Update 
+### 📚 Books
 
 
-DELETE /api/books/:id Delete book
+#### POST ``` /api/books -  Create a book```
 
-✍️ Authors
+#### GET ``` /api/books -  Get all books```
 
-Method Endpoint
+#### GET ```/api/books/:id -  Get single book```
 
-POST /api/authors
+#### PUT ```/api/books/:id -  Update``` 
 
-GET /api/authors
-
-👨‍🎓 Students
+#### DELETE ```/api/books/:id - Delete book```
 
 
-Method Endpoint
-
-POST /api/students
-
-GET /api/students
-
-📥 Sample Request
+### ✍️ Authors
 
 
-➕ Create Book
-{
-    
-"title": "Things Fall Apart",   
-"isbn": "123456789",    
-"authors": ["AUTHOR_ID_HERE"],  
-"issuedBy": "ATTENDANT_ID_HERE" 
-}   
 
-📤 Sample Response
+#### ```POST/api/authors```
 
-{
-"message": "New book created successfully!",        
-"data": {       
-"\_id": "book_id",  
-"title": "Things Fall Apart",   
-"isbn": "123456789",    
-"authors": [    
-{   
-"_id": "author_id", 
-"name": "Chinua Achebe" 
-}   
-],  
-"status": "IN"  
-}   
-}   
+#### ```GET /api/authors``` 
 
 
-🛠️ Tech Stack   
-Node.js  
-Express.js        
-MongoDB  
-Mongoose    
-dotenv  
-Nodemon
+### 👨‍🎓 Students
+
+
+#### ```POST /api/students```
+
+#### ```GET /api/students/get-all```
+
+#### ```Get /api/students/get/:id```
