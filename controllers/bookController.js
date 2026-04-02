@@ -82,7 +82,7 @@ exports.fetchBookById = async (req, res) => {
 
     if (!bookId) {
       return res.status(400).json({
-        message: "Author ID is required",
+        message: "Book ID is required",
       });
     }
 
@@ -96,6 +96,40 @@ exports.fetchBookById = async (req, res) => {
 
     return res.status(200).json({
       message: "Book fetched successfully",
+      data: book,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
+exports.updateBook = async (req, res) => {
+  try {
+    const { title } = req.body;
+    const bookId = req.params.id;
+
+    if (!title) {
+      return res.status(400).json({
+        message: "Something is missing",
+      });
+    }
+
+    const book = await Book.findById(bookId).populate("author");
+
+    if (!book) {
+      return res.status(404).json({
+        message: "Book not found",
+      });
+    }
+
+    book.title = title;
+
+    await book.save();
+
+    return res.status(200).json({
+      message: "updated book successfully",
       data: book,
     });
   } catch (error) {
