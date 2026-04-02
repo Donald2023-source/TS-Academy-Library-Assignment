@@ -1,5 +1,64 @@
 const Book = require("../models/book");
+const Author = require("../models/authorSchema");
+exports.createBook = async (req, res) => {
+  try {
+    const {
+      title,
+      isbn,
+      author,
+      status,
+      borrowedBy,
+      issuedBy,
+      returnDate,
+      publishedDate,
+    } = req.body;
 
+    if (!title || !isbn || !author || !issuedBy) {
+      return res.status(400).json({
+        message: "Required fields missing",
+        status: 400,
+      });
+    }
+
+    const existingIsbn = await Book.findOne({ isbn });
+    if (existingIsbn) {
+      return res.status(409).json({
+        message: "This book already exists",
+        status: 409,
+      });
+    }
+
+    const existingAuthor = await Author.findOne({ author });
+    if (existingAuthor) {
+      return res.status(409).json({ message: "Author doesn't exist" });
+    }
+
+    const newBook = await Book.create({
+      title,
+      isbn,
+      publishedDate,
+      status: status || "IN",
+      author,
+      issuedBy,
+      borrowedBy: borrowedBy || null,
+      returnDate: returnDate || null,
+    });
+
+    const populatedBook = await Book.findById(newBook._id).populate("author");
+
+    return res.status(201).json({
+      message: "New book created successfully!",
+      data: populatedBook,
+      status: 201,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Internal Server Error",
+      status: 500,
+    });
+  }
+};
 exports.borrowBook = async (req, res) => {
   try {
     const { studentId, attendantId, returnDate } = req.body;
