@@ -3,7 +3,8 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/database");
 const booksRouter = require("./routes/booksRoute");
 const authorRouter = require("./routes/authorsRoute");
-const Student = require("./models/student");
+const Attendant = require("./models/attendant");
+const Student = require('./models/student')
 
 dotenv.config();
 

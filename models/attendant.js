@@ -8,4 +8,4 @@ const attendantSchema = new mongoose.Schema(
 );
 
 const Attendant = mongoose.model("Attendant", attendantSchema);
-export default Attendant;
+module.exports = Attendant;
