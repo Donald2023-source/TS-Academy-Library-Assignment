@@ -139,6 +139,28 @@ exports.updateBook = async (req, res) => {
     });
   }
 };
+exports.deleteBook = async (req, res) => {
+  try {
+    const bookId = req.params.id;
+
+    const book = await Book.findByIdAndDelete(bookId);
+
+    if (!book) {
+      return res.status(404).json({
+        message: "Book not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Deleted book successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
 exports.borrowBook = async (req, res) => {
   try {
     const { studentId, attendantId, returnDate } = req.body;
