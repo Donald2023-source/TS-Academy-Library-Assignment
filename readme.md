@@ -68,36 +68,3 @@ Server runs on:
 http://localhost:8000
 
 
-# 🔗 API ENDPOINTS
-
-### 📚 Books
-
-
-#### POST ``` /api/books -  Create a book```
-
-#### GET ``` /api/books -  Get all books```
-
-#### GET ```/api/books/:id -  Get single book```
-
-#### PUT ```/api/books/:id -  Update``` 
-
-#### DELETE ```/api/books/:id - Delete book```
-
-
-### ✍️ Authors
-
-
-
-#### ```POST/api/authors```
-
-#### ```GET /api/authors``` 
-
-
-### 👨‍🎓 Students
-
-
-#### ```POST /api/students```
-
-#### ```GET /api/students/get-all```
-
-#### ```Get /api/students/get/:id```
